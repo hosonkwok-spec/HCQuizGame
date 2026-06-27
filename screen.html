@@ -367,21 +367,26 @@ function showDashboard(scores) {
   document.getElementById('dashSubtitle').textContent =
     `${scores.length} player${scores.length!==1?'s':''} · Top score: ${(scores[0]?.score||0).toLocaleString()} pts`;
 
-  // Podium (top 3)
-  const podiumOrder = [scores[1], scores[0], scores[2]].filter(Boolean); // 2nd, 1st, 3rd
+  // Podium (top 3) — visual order: 2nd(left), 1st(center), 3rd(right)
   const podiumClasses = ['p2','p1','p3'];
   const podiumHeights = ['80px','110px','60px'];
   const podiumLabels = ['🥈','🥇','🥉'];
   const podiumSizes = ['52px','64px','44px'];
+  const top = scores.slice(0, 3);
+  const podiumSlots = top.length === 1
+    ? [{ p: top[0], si: 1 }]
+    : top.length === 2
+      ? [{ p: top[1], si: 0 }, { p: top[0], si: 1 }]
+      : [{ p: top[1], si: 0 }, { p: top[0], si: 1 }, { p: top[2], si: 2 }];
 
-  document.getElementById('podiumWrap').innerHTML = podiumOrder.map((p, i) => `
+  document.getElementById('podiumWrap').innerHTML = podiumSlots.map(({ p, si }) => `
     <div class="podium-slot">
-      <div class="podium-avatar" style="width:${podiumSizes[i]};height:${podiumSizes[i]};background:${getColor(p.name)};font-size:${i===1?'22px':'16px'};">
+      <div class="podium-avatar" style="width:${podiumSizes[si]};height:${podiumSizes[si]};background:${getColor(p.name)};font-size:${si===1?'22px':'16px'};">
         ${initials(p.name)}
       </div>
-      <div class="podium-name" style="font-size:${i===1?'16px':'13px'};color:var(--text);">${escHtml(p.name)}</div>
+      <div class="podium-name" style="font-size:${si===1?'16px':'13px'};color:var(--text);">${escHtml(p.name)}</div>
       <div class="podium-score">${(p.score||0).toLocaleString()}</div>
-      <div class="podium-block ${podiumClasses[i]}" style="height:${podiumHeights[i]};">${podiumLabels[i]}</div>
+      <div class="podium-block ${podiumClasses[si]}" style="height:${podiumHeights[si]};">${podiumLabels[si]}</div>
     </div>`).join('');
 
   // Full table
