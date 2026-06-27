@@ -506,8 +506,7 @@ function escHtml(str) { return String(str).replace(/&/g,'&amp;').replace(/</g,'&
 
 // QR Code
 (function() {
-  const origin = window.location.origin;
-  const playerUrl = origin + '/player.html';
+  const playerUrl = window.location.href.replace(/\/[^\/]*$/, '/') + 'player.html';
   try { new QRCode(document.getElementById('qrcode'), { text: playerUrl, width: 200, height: 200, colorDark: '#000', colorLight: '#fff' }); }
   catch(e) { document.getElementById('qrcode').textContent = playerUrl; }
 })();
