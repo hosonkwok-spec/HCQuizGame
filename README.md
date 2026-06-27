@@ -5,7 +5,7 @@ Live multiplayer quiz game. Static HTML/JS + Firebase Realtime Database. No buil
 ## Pages
 - `index.html` — landing page + Hall of Fame
 - `editor.html` — build/edit quizzes (saved to this browser's localStorage)
-- `host.html` — run the live game
+- `host.html` — run the live game (password `OT3960`)
 - `screen.html` — big shared screen (projector/TV)
 - `player.html` — phone client for players
 
